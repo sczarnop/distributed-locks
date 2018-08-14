@@ -2,6 +2,7 @@
 
 namespace spec\DistributedLocks\Storage;
 
+use DistributedLocks\Exception\LockNotFoundException;
 use DistributedLocks\Key;
 use DistributedLocks\Storage\FileStorage;
 use PhpSpec\ObjectBehavior;
@@ -20,13 +21,37 @@ class FileStorageSpec extends ObjectBehavior
         $this->shouldHaveType(FileStorage::class);
     }
 
-    function it_sholud_add_key()
+    function it_should_add_key()
     {
         $resource = 'test_1';
         $key = new Key($resource);
-        $key->setLifetime(30);
         $this->add($key);
         Assert::eq(file_exists($this->getDirectory() . DIRECTORY_SEPARATOR . $resource. '.lock'), true);
+    }
+
+    function it_should_update_key()
+    {
+        $resource = 'test_1';
+        $expectedKey = new Key($resource);
+        file_put_contents($this->getFile($resource), serialize($expectedKey));
+
+        $expectedKey->setLifetime(30);
+        $this->update($expectedKey);
+
+        $key = unserialize(file_get_contents($this->getFile($resource), serialize($expectedKey)));
+        Assert::eq($expectedKey, $key);
+    }
+
+    function it_should_throw_lock_not_found_during_updating()
+    {
+        $resource = 'test_1';
+        $key = new Key($resource);
+        $this->shouldThrow(LockNotFoundException::class)->during('update', [$key]);
+    }
+
+    private function getFile(string $resource)
+    {
+        return $this->getDirectory() . DIRECTORY_SEPARATOR . $resource. '.lock';
     }
 
     private function getDirectory()

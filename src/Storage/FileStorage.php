@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DistributedLocks\Storage;
 
 use DistributedLocks\Exception\LockConflictedException;
+use DistributedLocks\Exception\LockNotFoundException;
 use DistributedLocks\Key;
 use DistributedLocks\Storage;
 
@@ -23,12 +24,16 @@ class FileStorage implements Storage
 
     public function add(Key $key)
     {
-        file_put_contents($this->directoryPath. DIRECTORY_SEPARATOR . $key . self::EXTENSION, $key->expiringTime()->format(\DateTime::ISO8601));
+        file_put_contents($this->directoryPath. DIRECTORY_SEPARATOR . $key . self::EXTENSION, serialize($key));
     }
 
     public function update(Key $key)
     {
+        if($this->exists($key)) {
+            file_put_contents($this->directoryPath. DIRECTORY_SEPARATOR . $key . self::EXTENSION, serialize($key));
+        }
 
+        throw new LockNotFoundException(sprintf('Lock "%s" not found.', $key));
     }
 
     public function delete(Key $key)
@@ -36,8 +41,8 @@ class FileStorage implements Storage
         // TODO: Implement delete() method.
     }
 
-    public function exists(Key $key)
+    public function exists(Key $key): bool
     {
-        // TODO: Implement exists() method.
+        return file_exists($this->directoryPath. DIRECTORY_SEPARATOR . $key . self::EXTENSION);
     }
 }
