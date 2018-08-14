@@ -1,0 +1,31 @@
+{
+  "name": "sczarnop/distributed-locks",
+  "type": "library",
+  "description": "",
+  "keywords": ["locking", "lock", "distributed", "lockservice"],
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "require-dev": {
+    "behat/behat": "3.*",
+    "phpspec/phpspec": ">=4"
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true,
+    "bin-dir": "bin/"
+  },
+  "autoload": {
+    "psr-4": {
+      "DistributedLocks\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  }
+}

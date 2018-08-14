@@ -1,0 +1,5 @@
+suites:
+  types:
+    namespace: DistributedLocks
+    spec_path: tests
+    psr4_prefix: DistributedLocks

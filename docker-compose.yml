@@ -1,0 +1,8 @@
+version: "3"
+services:
+  testing:
+    build: .
+    working_dir: "/data/app"
+    volumes:
+    - ./:/data/app
+    - $HOME/.composer:/home/develop/.composer
