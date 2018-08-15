@@ -1,5 +1,5 @@
 {
-  "name": "sczarnop/distributed-locks",
+  "name": "distributed-locks/distributed-locks",
   "type": "library",
   "description": "dictributed locks mechanism",
   "keywords": ["locking", "lock", "distributed", "lockservice"],
