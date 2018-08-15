@@ -1,7 +1,7 @@
 {
   "name": "sczarnop/distributed-locks",
   "type": "library",
-  "description": "",
+  "description": "dictributed locks mechanism",
   "keywords": ["locking", "lock", "distributed", "lockservice"],
   "license": "MIT",
   "require": {
