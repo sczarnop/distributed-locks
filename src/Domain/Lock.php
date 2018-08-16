@@ -17,23 +17,28 @@ class Lock
     /**
      * @var \DateTime
      */
-    private $expiredAt;
+    private $willExpireAt;
 
     /**
      * @var \DateTimeImmutable
      */
     private $createdAt;
 
-    public function __construct(string $resource, string $owner, \DateTime $expiredAt, \DateTimeImmutable $createdAt)
+    public function __construct(string $resource, string $owner, \DateTime $willExpireAt, \DateTimeImmutable $createdAt)
     {
         $this->resource = $resource;
         $this->owner = $owner;
-        $this->expiredAt = $expiredAt;
+        $this->willExpireAt = $willExpireAt;
         $this->createdAt = $createdAt;
     }
 
     public function owner(): string
     {
         return $this->owner;
+    }
+
+    public function willExpireAt(): \DateTime
+    {
+        return $this->willExpireAt;
     }
 }
