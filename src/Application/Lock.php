@@ -51,6 +51,8 @@ class Lock
             if($lock->owner() != $this->owner) {
                 throw new ResourceLocked(sprintf('Resource is locked by "%s"', $lock->owner()));
             }
+        } catch(ResourceLocked $resourceLocked) {
+          throw $resourceLocked;
         } catch(LockNotFound $lockNotFound) {
             try {
                 $this->createLock();
