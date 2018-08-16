@@ -3,6 +3,7 @@
 namespace spec\DistributedLocks\Application;
 
 use DistributedLocks\Application\Lock;
+use DistributedLocks\Domain\AccessDenied;
 use DistributedLocks\Domain\Lock as LockEntity;
 use DistributedLocks\Domain\LockCouldNotBeAcquired;
 use DistributedLocks\Domain\LockCouldNotBeReleased;
@@ -98,7 +99,6 @@ class LockSpec extends ObjectBehavior
         $lock->owner()->willReturn($owner);
         $lockRepository->remove($resource)->shouldNotBeCalled();
         $lockRepository->get($resource)->willReturn($lock);
-        $this->shouldThrow(LockCouldNotBeReleased::class)->during('release');
+        $this->shouldThrow(AccessDenied::class)->during('release');
     }
-
 }

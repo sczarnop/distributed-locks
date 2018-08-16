@@ -84,6 +84,10 @@ class Lock
                 throw new AccessDenied(sprintf('You do not have access to resource "%s"', $this->resource));
             }
             $this->repository->remove($this->resource);
+        } catch (LockNotFound $notFound) {
+            throw $notFound;
+        } catch (AccessDenied $accessDenied) {
+            throw $accessDenied;
         } catch(\Exception $exception) {
             throw new LockCouldNotBeReleased(
                 sprintf('Lock "%s" for owner "%s" can not be released', $this->resource, $this->owner),
