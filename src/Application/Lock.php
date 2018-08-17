@@ -98,6 +98,16 @@ class Lock
     }
 
     /**
+     * @throws LockNotFound
+     */
+    public function getLockInfo(): LockInfo
+    {
+        $lock = $this->repository->get($this->resource);
+
+        return new LockInfo($lock->resource(), $lock->owner(), $lock->willExpireAt(), $lock->createdAt());
+    }
+
+    /**
      * @throws \Exception
      */
     private function createLock()

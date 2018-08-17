@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace DistributedLocks\Domain;
+namespace DistributedLocks\Application;
 
-class Lock
+class LockInfo
 {
     /**
      * @var string
@@ -15,14 +16,14 @@ class Lock
     private $owner;
 
     /**
-     * @var \DateTime
-     */
-    private $willExpireAt;
-
-    /**
      * @var \DateTimeImmutable
      */
     private $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    private $willExpireAt;
 
     public function __construct(string $resource, string $owner, ?\DateTime $willExpireAt, \DateTimeImmutable $createdAt)
     {
@@ -32,23 +33,23 @@ class Lock
         $this->createdAt = $createdAt;
     }
 
-    public function owner(): string
-    {
-        return $this->owner;
-    }
-
-    public function willExpireAt(): ?\DateTime
-    {
-        return $this->willExpireAt;
-    }
-
     public function resource(): string
     {
         return $this->resource;
     }
 
+    public function owner(): string
+    {
+        return $this->owner;
+    }
+
     public function createdAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function willExpireAt(): ?\DateTime
+    {
+        return $this->willExpireAt;
     }
 }
